@@ -1,16 +1,21 @@
 import React from 'react';
+import styled from 'styled-components';
 import { hot } from 'react-hot-loader';
-import { getSources } from './api/news';
 import NewsWidget from './components/NewsWidget';
 
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #fafafa;
+`;
+
 const App = () => {
-  // getNews();
-  getSources().then(result => console.log(result));
   return (
-    <div>
-      <h1> Hello, World! </h1>
+    <Container>
       <NewsWidget />
-    </div>
+    </Container>
   );
 };
 

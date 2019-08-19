@@ -8,15 +8,13 @@ const api = axios.create({
   headers: { 'x-api-key': API_KEY }
 });
 
-const formatResult = result => result.json();
-
 const formatParams = (page, country, source) => {
   const params = new URLSearchParams();
   params.append('pageSize', PAGE_SIZE);
   params.append('page', page);
 
   if (source) {
-    params.append('source', source);
+    params.append('sources', source);
   } else if (country) {
     params.append('country', country);
   }
@@ -28,14 +26,14 @@ const getNews = (page, country, source) => {
   const params = formatParams(page, country, source);
 
   return api
-    .get('/everything', {
+    .get('/top-headlines', {
       params
     })
-    .then(formatResult);
+    .then(({ data }) => data);
 };
 
 const getSources = () => {
-  return api.get('/sources?country=br').then(formatResult);
+  return api.get('/sources?country=br').then(({ data }) => data);
 };
 
 export { getNews, getSources };
