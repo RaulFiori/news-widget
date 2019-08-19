@@ -27,7 +27,7 @@ export default function reducer(state = initialState, action = {}) {
     case SET_SOURCES:
       return { ...state, sources: copyArray(action.sources) };
     case SELECT_SOURCE:
-      return { ...state, selectedSource: action.sourceId, page: 0, news: [] };
+      return { ...state, selectedSource: action.sourceId, page: 1, news: [] };
     case ADD_NEWS:
       return {
         ...state,

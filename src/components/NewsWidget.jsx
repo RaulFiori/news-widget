@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { getNews } from '../api/news';
+import Api from '../api/news';
 import Story from './Story';
 import { storyShape } from '../prop-types/news-types';
 import {
@@ -49,27 +49,33 @@ const Button = styled.button`
 
 class NewsWidget extends React.Component {
   componentDidMount() {
-    const { page, country, selectedSource } = this.props;
-    getNews(page, country, selectedSource).then(result => {
-      const { articles, totalResults } = result;
-      this.props.updateTotal(totalResults);
-      this.props.addNews(articles);
-    });
+    this.loadInitialNews();
   }
 
   componentDidUpdate(prevProps) {
     const { page, selectedSource } = this.props;
     const { page: oldPage, selectedSource: oldSource } = prevProps;
 
-    if (page !== oldPage || selectedSource !== oldSource) {
+    if (page !== oldPage) {
       this.loadNews();
+    } else if (selectedSource !== oldSource) {
+      this.loadInitialNews();
     }
   }
+
+  loadInitialNews = () => {
+    const { page, country, selectedSource } = this.props;
+    Api.getNews(page, country, selectedSource).then(result => {
+      const { articles, totalResults } = result;
+      this.props.updateTotal(totalResults);
+      this.props.addNews(articles);
+    });
+  };
 
   loadNews = () => {
     const { page, country, selectedSource } = this.props;
 
-    getNews(page, country, selectedSource).then(result => {
+    Api.getNews(page, country, selectedSource).then(result => {
       const { articles } = result;
 
       this.props.addNews(articles);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { getSources } from '../api/news';
+import Api from '../api/news';
 import { setSources, selectSource } from '../ducks/newsState';
 import { sourceShape } from '../prop-types/news-types';
 
@@ -25,7 +25,7 @@ const Option = styled.option`
 
 class Select extends Component {
   componentDidMount() {
-    getSources().then(({ sources }) => this.props.setSources(sources));
+    Api.getSources().then(({ sources }) => this.props.setSources(sources));
   }
 
   hasSources = () => {
